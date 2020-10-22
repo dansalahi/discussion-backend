@@ -35,6 +35,7 @@ class AuthController extends Controller
     /**
      * Check the user credentials for login
      * @method GET
+     *
      * @param Request $request
      * @return JsonResponse
      * @throws ValidationException
@@ -55,6 +56,16 @@ class AuthController extends Controller
             'email' => 'incorrect credentials',
         ]);
 
+    }
+
+
+    /**
+     * @method GET
+     * logout the user
+     */
+    public function logout()
+    {
+        Auth::logout();
     }
 
 }
