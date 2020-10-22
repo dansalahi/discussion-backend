@@ -20,5 +20,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('v1/auth')->group(function () {
-    Route::post('/register', 'Api\v1\Auth\AtuhController@register');
+    Route::post('/register', 'Api\v1\Auth\AtuhController@register')->name('auth.register');
+    Route::post('/login', 'Api\v1\Auth\AtuhController@login')->name('auth.login');
 });

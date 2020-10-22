@@ -32,4 +32,29 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * Check the user credentials for login
+     * @method GET
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function login(Request $request)
+    {
+        $data = $request->validate([
+            'name'     => ['required'],
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($request->only(['email', 'password']))) {
+            return response()->json(Auth::user(), 200);
+        }
+
+        throw ValidationException::withMessages([
+            'email' => 'incorrect credentials',
+        ]);
+
+    }
+
 }
