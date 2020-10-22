@@ -16,7 +16,7 @@ class AuthControllerTest extends TestCase
      */
     public function test_register_should_be_validated()
     {
-        $response = $this->postJson('api/v1/auth/register');
+        $response = $this->postJson(route('auth.register'));
         $response->assertStatus(422);
     }
 
@@ -25,7 +25,7 @@ class AuthControllerTest extends TestCase
      */
     public function test_a_new_user_can_register()
     {
-        $response = $this->postJson('api/v1/auth/register', [
+        $response = $this->postJson(route('auth.register'), [
             'name'     => 'Dan Salahi',
             'email'    => 'dev.salahi@gmail.com',
             'password' => '12345678',
