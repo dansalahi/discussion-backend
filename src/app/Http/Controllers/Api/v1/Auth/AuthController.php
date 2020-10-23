@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,21 +13,22 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-
     /**
      * Register a new user.
      * @method POST
      *
-     * @param Request $request
+     * @param Request                 $request
+     * @param UserRepositoryInterface $userRepository
+     * @return JsonResponse
      */
-    public function register(Request $request)
+    public function register(Request $request, UserRepositoryInterface $userRepository)
     {
         $data = $request->validate([
             'name'     => ['required'],
             'email'    => ['required', 'email', 'unique:users'],
             'password' => ['required'],
         ]);
-        User::query()->create(array_merge($data, ['password' => Hash::make($request->password)]));
+        $userRepository->create(array_merge($data, ['password' => Hash::make($request->password)]));
         return response()->json([
             'message' => 'user created',
         ], 201);
