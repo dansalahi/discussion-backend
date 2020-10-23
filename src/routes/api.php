@@ -14,18 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
 
 Route::prefix('v1/')->group(function () {
 
     // Authentication Routes.
     Route::prefix('/auth')->group(function () {
-        Route::post('/register', 'Api\v1\Auth\AtuhController@register')->name('auth.register');
-        Route::post('/login', 'Api\v1\Auth\AtuhController@login')->name('auth.login');
-        Route::post('/logout', 'Api\v1\Auth\AtuhController@logout')->name('auth.logout');
+        Route::post('/register', 'Api\v1\Auth\AuthController@register')->name('auth.register');
+        Route::post('/login', 'Api\v1\Auth\AuthController@login')->name('auth.login');
+        Route::get('/user', 'Api\v1\Auth\AuthController@user')->name('auth.user');
+        Route::post('/logout', 'Api\v1\Auth\AuthController@logout')->name('auth.logout');
     });
 
 });

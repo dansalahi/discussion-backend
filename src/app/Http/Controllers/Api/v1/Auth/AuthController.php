@@ -60,6 +60,15 @@ class AuthController extends Controller
 
 
     /**
+     * @return JsonResponse
+     */
+    public function user()
+    {
+        return response()->json(Auth::user(), 200);
+    }
+
+
+    /**
      * @method POST
      * logout the user
      */
