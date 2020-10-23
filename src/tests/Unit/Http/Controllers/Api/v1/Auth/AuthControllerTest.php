@@ -55,4 +55,17 @@ class AuthControllerTest extends TestCase
         ]);
         $response->assertStatus(200);
     }
+
+    /**
+     * Test a log out the logged in user.
+     */
+    public function test_a_logged_in_user_can_logout()
+    {
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user)->postJson(route('auth.logout'));
+        $response->assertStatus(200);
+    }
+
+
 }
+

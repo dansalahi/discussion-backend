@@ -60,12 +60,16 @@ class AuthController extends Controller
 
 
     /**
-     * @method GET
+     * @method POST
      * logout the user
      */
     public function logout()
     {
         Auth::logout();
+
+        return response()->json([
+            'message' => 'logout successfully',
+        ], 200);
     }
 
 }
