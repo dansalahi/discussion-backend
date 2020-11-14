@@ -5,6 +5,7 @@ namespace Tests\Unit\Http\Controllers\Api\v1\Auth;
 use App\Http\Controllers\Api\v1\Auth\AuthController;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
@@ -18,7 +19,7 @@ class AuthControllerTest extends TestCase
     public function test_register_should_be_validated()
     {
         $response = $this->postJson(route('auth.register'));
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -31,7 +32,7 @@ class AuthControllerTest extends TestCase
             'email'    => 'dev.salahi@gmail.com',
             'password' => '12345678',
         ]);
-        $response->assertStatus(201);
+        $response->assertStatus(Response::HTTP_CREATED);
     }
 
     /**
@@ -40,7 +41,7 @@ class AuthControllerTest extends TestCase
     public function test_login_should_be_validated()
     {
         $response = $this->postJson(route('auth.login'));
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -48,12 +49,13 @@ class AuthControllerTest extends TestCase
      */
     public function test_a_new_user_can_login_by_correct_credentials()
     {
-        $user = factory(User::class, 1)->create();
-        $response = $this->actingAs($user)->postJson(route('auth.login'), [
+        $user = factory(User::class)->create();
+        $response = $this->postJson(route('auth.login'), [
             'email'    => $user->email,
-            'password' => 'password ',
+            'password' => 'password',
         ]);
-        $response->assertStatus(200);
+
+        $response->assertStatus(Response::HTTP_OK);
     }
 
 
@@ -61,7 +63,7 @@ class AuthControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
         $response = $this->actingAs($user)->get(route('auth.user'));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -71,7 +73,7 @@ class AuthControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
         $response = $this->actingAs($user)->postJson(route('auth.logout'));
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
 
