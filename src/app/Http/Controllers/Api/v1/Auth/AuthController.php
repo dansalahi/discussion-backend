@@ -7,6 +7,7 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -31,7 +32,7 @@ class AuthController extends Controller
         $userRepository->create(array_merge($data, ['password' => Hash::make($request->password)]));
         return response()->json([
             'message' => 'user created',
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -50,7 +51,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($request->only(['email', 'password']))) {
-            return response()->json(Auth::user(), 200);
+            return response()->json(Auth::user(), Response::HTTP_OK);
         }
 
         throw ValidationException::withMessages([
@@ -65,7 +66,7 @@ class AuthController extends Controller
      */
     public function user()
     {
-        return response()->json(Auth::user(), 200);
+        return response()->json(Auth::user(), Response::HTTP_OK);
     }
 
 
@@ -79,7 +80,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'logout successfully',
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
 }
