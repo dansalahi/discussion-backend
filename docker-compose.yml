@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 networks:
   backend:
@@ -8,29 +8,29 @@ services:
     image: nginx:stable-alpine
     container_name: dan-nginx
     ports:
-      - "8083:80"
+      - "8084:80"
     volumes:
       - ./src:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
-      - mysql
+      - db
     networks:
       - backend
-  mysql:
-    image: mysql:8.0
+  db:
+    image: mysql:5.7.29
     container_name: dan-mysql
     restart: unless-stopped
     tty: true
     volumes:
       - ./mysql:/var/lib/mysql
     ports:
-      - "3406:3306"
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: homestead
-      MYSQL_USER: secret
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: homestead
       MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
@@ -64,8 +64,24 @@ services:
     volumes:
       - ./src:/var/www/html
     depends_on:
-      - mysql
+      - db
     working_dir: /var/www/html
-    entrypoint: [ 'php','/var/www/html/artisan' ]
+    entrypoint: [ "php", "/var/www/html/artisan" ]
     networks:
       - backend
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    container_name: phpmyadmin
+    depends_on:
+      - db
+    ports:
+      - "8085:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - backend
+
+
