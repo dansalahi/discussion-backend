@@ -30,6 +30,7 @@ Route::prefix('v1/')->group(function () {
         Route::get('/all', 'ChannelsController@getAllChannels')->name('channels.all');
         Route::post('/store', 'ChannelsController@store')->name('channel.store');
         Route::put('/update', 'ChannelsController@update')->name('channel.update');
+        Route::delete('/destroy', 'ChannelsController@destroy')->name('channel.destroy');
     });
 
 });

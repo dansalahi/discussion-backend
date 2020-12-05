@@ -58,4 +58,19 @@ class ChannelsController extends Controller
         return \response()->json(['message' => 'channel updated'], Response::HTTP_OK);
     }
 
+    /**
+     *
+     * delete a channel(s)
+     *
+     * @param Request                    $request
+     * @param ChannelRepositoryInterface $channelRepository
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Request $request, ChannelRepositoryInterface $channelRepository)
+    {
+        $request->validate(['id' => 'required']);
+        $channelRepository->destroy($request->id);
+        return \response()->json(['message' => 'channel has been deleted'], Response::HTTP_OK);
+    }
+
 }
