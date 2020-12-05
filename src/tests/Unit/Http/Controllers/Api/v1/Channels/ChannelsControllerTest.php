@@ -56,10 +56,10 @@ class ChannelsControllerTest extends TestCase
     /**
      * Test to update channel
      */
-    public function test_update_channel()
+    public function test_a_channel_should_be_updated()
     {
         $channel = factory(Channel::class)->create();
-        $response = $this->json('PUT', route('channel.store'), [
+        $response = $this->json('PUT', route('channel.update'), [
             'id'   => $channel->id,
             'name' => 'PHP',
         ]);
