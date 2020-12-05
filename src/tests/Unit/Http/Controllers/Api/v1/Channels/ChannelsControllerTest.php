@@ -67,4 +67,25 @@ class ChannelsControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals('PHP', $updatedChannel->name);
     }
+
+
+    /**
+     * Test a request to destroying a channel should be validated
+     */
+    public function test_a_channel_to_destroy_should_be_validated()
+    {
+        $response = $this->json('DELETE', route('channel.destroy'), []);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     * Test a channel should be destroyed.
+     */
+    public function test_a_channel_should_be_destroy()
+    {
+        $channel = factory(Channel::class)->create();
+        $response = $this->json('DELETE', route('channel.destroy'), ['id' => $channel->id]);
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }
