@@ -25,4 +25,11 @@ Route::prefix('v1/')->group(function () {
         Route::post('/logout', 'Api\v1\Auth\AuthController@logout')->name('auth.logout');
     });
 
+
+    Route::namespace('Api\v1\Channels')->prefix('/channel')->group(function () {
+        Route::get('/all', 'ChannelsController@getAllChannels')->name('channels.all');
+        Route::post('/store', 'ChannelsController@store')->name('channel.store');
+        Route::put('/update', 'ChannelsController@update')->name('channel.update');
+    });
+
 });
