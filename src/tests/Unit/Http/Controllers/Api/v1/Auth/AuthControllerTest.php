@@ -36,7 +36,7 @@ class AuthControllerTest extends TestCase
     }
 
     /**
-     * Test a user request to login using API
+     * Test a user request to login using API should be validated
      */
     public function test_login_should_be_validated()
     {
