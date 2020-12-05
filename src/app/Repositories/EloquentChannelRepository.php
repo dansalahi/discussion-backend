@@ -35,4 +35,9 @@ class EloquentChannelRepository implements ChannelRepositoryInterface
     {
         return $this->getModel()->find($id)->update($data);
     }
+
+    public function destroy(int $id)
+    {
+        return $this->getModel()->findOrFail($id)->delete();
+    }
 }

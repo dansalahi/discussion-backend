@@ -17,4 +17,6 @@ interface ChannelRepositoryInterface
     public function create(array $data);
 
     public function update(int $id, array $data);
+
+    public function destroy(int $id);
 }
