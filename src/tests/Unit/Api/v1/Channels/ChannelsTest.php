@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\Api\v1\Channels;
+namespace Tests\Unit\Http\v1\Channels;
 
 use App\Channel;
 use App\Http\Controllers\Api\v1\Channels\ChannelsController;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class ChannelsControllerTest extends TestCase
+class ChannelsTest extends TestCase
 {
 
     /**
