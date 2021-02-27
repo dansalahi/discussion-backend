@@ -142,8 +142,8 @@ return [
     ],
     'default_super_admin_email' => 'dev.salahi@gmail.com',
     'default_roles' => [
-        'Super Admin',
-        'User'
+        \App\Enums\RolesEnum::SUPER_ADMIN,
+        \App\Enums\RolesEnum::REGULAR_USER
     ],
     'default_permissions' => [
         'user management',
