@@ -140,4 +140,15 @@ return [
 
         'store' => 'default',
     ],
+    'default_super_admin_email' => 'dev.salahi@gmail.com',
+    'default_roles' => [
+        'Super Admin',
+        'User'
+    ],
+    'default_permissions' => [
+        'user management',
+        'channel management',
+        'answers management',
+        'thread management'
+    ]
 ];
