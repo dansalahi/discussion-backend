@@ -26,11 +26,18 @@ Route::prefix('v1/')->group(function () {
     });
 
 
-    Route::namespace('Api\v1\Channels')->prefix('/channel')->group(function () {
-        Route::get('/all', 'ChannelsController@getAllChannels')->name('channels.all');
-        Route::post('/store', 'ChannelsController@store')->name('channel.store');
-        Route::put('/update', 'ChannelsController@update')->name('channel.update');
-        Route::delete('/destroy', 'ChannelsController@destroy')->name('channel.destroy');
+    Route::namespace('Api\v1')->group(function () {
+
+        // Channel Routes
+        Route::namespace('Channels')->prefix('/channel')->group(function () {
+            Route::get('/all', 'ChannelsController@getAllChannels')->name('channels.all');
+            Route::post('/store', 'ChannelsController@store')->name('channel.store');
+            Route::put('/update', 'ChannelsController@update')->name('channel.update');
+            Route::delete('/destroy', 'ChannelsController@destroy')->name('channel.destroy');
+        });
+
+
+
     });
 
 });
