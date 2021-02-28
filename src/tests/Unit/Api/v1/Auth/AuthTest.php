@@ -13,6 +13,32 @@ class AuthTest extends TestCase
 
     use RefreshDatabase;
 
+
+    /**
+     * Adding Roles and Permissions to DB
+     */
+    public function registerRolesAndPermissions()
+    {
+        if (\Spatie\Permission\Models\Role::whereName(config('permission.default_roles')[0])->count() < 1) {
+            // Creating roles bases on the permission's config
+            foreach (config('permission.default_roles') as $roleName) {
+                \Spatie\Permission\Models\Role::create([
+                    'name' => $roleName
+                ]);
+            }
+
+        }
+
+        if (\Spatie\Permission\Models\Permission::whereName(config('permission.default_permissions')[0])->count() < 1) {
+            // Creating permissions bases on the permission's config
+            foreach (config('permission.default_permissions') as $permissionName) {
+                \Spatie\Permission\Models\Permission::create([
+                    'name' => $permissionName
+                ]);
+            }
+        }
+    }
+
     /**
      * Test a user request to register using API
      */
@@ -27,9 +53,10 @@ class AuthTest extends TestCase
      */
     public function test_a_new_user_can_register()
     {
+        $this->registerRolesAndPermissions();
         $response = $this->postJson(route('auth.register'), [
-            'name'     => 'Dan Salahi',
-            'email'    => 'dev.salahi@gmail.com',
+            'name' => 'Dan Salahi',
+            'email' => 'dev.salahi@gmail.com',
             'password' => '12345678',
         ]);
         $response->assertStatus(Response::HTTP_CREATED);
@@ -51,7 +78,7 @@ class AuthTest extends TestCase
     {
         $user = factory(User::class)->create();
         $response = $this->postJson(route('auth.login'), [
-            'email'    => $user->email,
+            'email' => $user->email,
             'password' => 'password',
         ]);
 
