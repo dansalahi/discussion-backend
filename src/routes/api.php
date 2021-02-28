@@ -18,24 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1/')->group(function () {
 
     // Authentication Routes.
-    Route::prefix('/auth')->group(function () {
-        Route::post('/register', 'Api\v1\Auth\AuthController@register')->name('auth.register');
-        Route::post('/login', 'Api\v1\Auth\AuthController@login')->name('auth.login');
-        Route::get('/user', 'Api\v1\Auth\AuthController@user')->name('auth.user');
-        Route::post('/logout', 'Api\v1\Auth\AuthController@logout')->name('auth.logout');
-    });
+    include __DIR__ . '/v1/authRoutes.php';
 
 
     Route::namespace('Api\v1')->group(function () {
 
         // Channel Routes
-        Route::namespace('Channels')->prefix('/channel')->group(function () {
-            Route::get('/all', 'ChannelsController@getAllChannels')->name('channels.all');
-            Route::post('/store', 'ChannelsController@store')->name('channel.store');
-            Route::put('/update', 'ChannelsController@update')->name('channel.update');
-            Route::delete('/destroy', 'ChannelsController@destroy')->name('channel.destroy');
-        });
-
+        include __DIR__ . '/v1/channelsRoutes.php';
 
 
     });
