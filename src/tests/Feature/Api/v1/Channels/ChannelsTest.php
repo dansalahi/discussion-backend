@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Http\v1\Channels;
+namespace Tests\Feature\Http\v1\Channels;
 
 use App\Channel;
 use App\Enums\RolesEnum;
