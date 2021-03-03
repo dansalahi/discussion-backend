@@ -3,6 +3,7 @@
 namespace Tests\Unit\Http\v1\Channels;
 
 use App\Channel;
+use App\Enums\RolesEnum;
 use App\Http\Controllers\Api\v1\Channels\ChannelsController;
 use App\User;
 use Illuminate\Http\Response;
@@ -52,11 +53,12 @@ class ChannelsTest extends TestCase
     {
         $this->registerRolesAndPermissions();
 
-        $user = factory(User::class, 1)->create();
+        $user = factory(\App\User::class)->create();
+
 //        Sanctum::actingAs($user);
         $user->givePermissionTo('channel management');
 
-        $response = $this->postJson(route('channel.store'), []);
+        $response = $this->actingAs($user)->postJson(route('channel.store'), []);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
@@ -69,9 +71,7 @@ class ChannelsTest extends TestCase
     {
 
         $this->registerRolesAndPermissions();
-
-        $user = factory(User::class, 1)->create();
-//        Sanctum::actingAs($user);
+        $user = factory(User::class)->create();
         $user->givePermissionTo('channel management');
 
         $response = $this->actingAs($user)->postJson(route('channel.store'), [
@@ -88,11 +88,8 @@ class ChannelsTest extends TestCase
     public function test_channel_should_be_validated()
     {
 
-
         $this->registerRolesAndPermissions();
-
-        $user = factory(User::class, 1)->create();
-//        Sanctum::actingAs($user);
+        $user = factory(User::class)->create();
         $user->givePermissionTo('channel management');
 
         $response = $this->actingAs($user)->json('PUT', route('channel.update'), []);
@@ -105,8 +102,13 @@ class ChannelsTest extends TestCase
      */
     public function test_a_channel_should_be_updated()
     {
+        $this->registerRolesAndPermissions();
+        $user = factory(User::class)->create();
+        $user->givePermissionTo('channel management');
+
+
         $channel = factory(Channel::class)->create();
-        $response = $this->json('PUT', route('channel.update'), [
+        $response = $this->actingAs($user)->json('PUT', route('channel.update'), [
             'id' => $channel->id,
             'name' => 'PHP',
         ]);
@@ -121,7 +123,11 @@ class ChannelsTest extends TestCase
      */
     public function test_a_channel_to_destroy_should_be_validated()
     {
-        $response = $this->json('DELETE', route('channel.destroy'), []);
+        $this->registerRolesAndPermissions();
+        $user = factory(User::class)->create();
+        $user->givePermissionTo('channel management');
+
+        $response = $this->actingAs($user)->json('DELETE', route('channel.destroy'), []);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -131,8 +137,13 @@ class ChannelsTest extends TestCase
      */
     public function test_a_channel_should_be_destroy()
     {
+        $this->registerRolesAndPermissions();
+        $user = factory(User::class)->create();
+        $user->givePermissionTo('channel management');
+
+
         $channel = factory(Channel::class)->create();
-        $response = $this->json('DELETE', route('channel.destroy'), ['id' => $channel->id]);
+        $response = $this->actingAs($user)->json('DELETE', route('channel.destroy'), ['id' => $channel->id]);
         $response->assertStatus(Response::HTTP_OK);
     }
 }
