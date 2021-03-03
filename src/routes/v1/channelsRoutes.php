@@ -6,7 +6,11 @@ use App\Http\Controllers\Api\v1\Channels\ChannelsController;
 // Channel Routes
 Route::namespace('Channels')->prefix('/channel')->group(function () {
     Route::get('/all', [ChannelsController::class, 'getAllChannels'])->name('channels.all');
-    Route::post('/store', [ChannelsController::class, 'store'])->name('channel.store');
-    Route::put('/update', [ChannelsController::class, 'update'])->name('channel.update');
-    Route::delete('/destroy', [ChannelsController::class, 'destroy'])->name('channel.destroy');
+
+    Route::middleware(['can:channel management'])->group(function () {
+        Route::post('/store', [ChannelsController::class, 'store'])->name('channel.store');
+        Route::put('/update', [ChannelsController::class, 'update'])->name('channel.update');
+        Route::delete('/destroy', [ChannelsController::class, 'destroy'])->name('channel.destroy');
+    });
+
 });
