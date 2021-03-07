@@ -25,8 +25,8 @@ class ChannelsController extends Controller
 
     /**
      *  Store a channel in DB.
-     *
-     * @param Request                    $request
+     * @method POST
+     * @param Request $request
      * @param ChannelRepositoryInterface $channelRepository
      * @return \Illuminate\Http\JsonResponse
      */
@@ -43,8 +43,8 @@ class ChannelsController extends Controller
 
     /**
      * Update a channel in DB.
-     *
-     * @param Request                    $request
+     * @method PUT
+     * @param Request $request
      * @param ChannelRepositoryInterface $channelRepository
      * @return \Illuminate\Http\JsonResponse
      */
@@ -61,8 +61,8 @@ class ChannelsController extends Controller
     /**
      *
      * delete a channel(s)
-     *
-     * @param Request                    $request
+     * @method DELETE
+     * @param Request $request
      * @param ChannelRepositoryInterface $channelRepository
      * @return \Illuminate\Http\JsonResponse
      */
