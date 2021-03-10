@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Thread extends Model
 {
+    protected $fillable = [
+        'title',
+        'content',
+        'status',
+        'channel_id',
+        'user_id',
+        'answer_id',
+    ];
+
     public function channel(): BelongsTo
     {
         return $this->belongsTo(Channel::class);
