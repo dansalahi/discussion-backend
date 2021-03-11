@@ -64,4 +64,31 @@ class ThreadsController extends Controller
     }
 
 
+
+
+    /**
+     * Update a thread in DB.
+     *
+     * @param Request $request
+     * @param ThreadRepositoryInterface $threadRepository
+     * @return JsonResponse
+     */
+    public function update(Request $request, ThreadRepositoryInterface $threadRepository): JsonResponse
+    {
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'channel_id' => 'required',
+        ]);
+        $data = [
+            'title' => $request->input('title'),
+            'slug' => Str::slug($request->input('title')),
+            'content' => $request->input('content'),
+            'channel_id' => $request->input('channel_id'),
+        ];
+        $threadRepository->update($request->id, $data);
+        return \response()->json(['message' => 'thread updated'], Response::HTTP_OK);
+    }
+
+
 }

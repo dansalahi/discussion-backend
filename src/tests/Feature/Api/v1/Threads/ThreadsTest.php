@@ -37,6 +37,7 @@ class ThreadsTest extends TestCase
      */
     public function test_store_a_thread_should_be_validated()
     {
+        Sanctum::actingAs(factory(User::class)->create());
         $response = $this->postJson(route('threads.store'), []);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -58,5 +59,44 @@ class ThreadsTest extends TestCase
 
         $response->assertStatus(Response::HTTP_CREATED);
     }
+
+
+    /**
+     * @test a thread update request to be validated
+     */
+    public function test_update_a_thread_should_be_validated()
+    {
+
+        Sanctum::actingAs(factory(User::class)->create());
+        $thread = factory(Thread::class)->create();
+        $response = $this->putJson(route('threads.update',[$thread]), []);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+
+    /**
+     * @test a thread can stored on DB
+     */
+    public function test_a_thread_should_be_updated()
+    {
+        $this->withoutExceptionHandling();
+        Sanctum::actingAs(factory(User::class)->create());
+        $thread = factory(Thread::class)->create([
+            'title' => 'Vue',
+            'content' => 'Vue is great',
+            'channel_id' => factory(Channel::class)->create()->id
+        ]);
+
+        $response = $this->putJson(route('threads.update', [$thread]), [
+            'id' => $thread->id,
+            'title' => 'React',
+            'content' => 'React is great',
+            'channel_id' => factory(Channel::class)->create()->id
+        ])->assertSuccessful();
+
+        $thread->refresh();
+        $this->assertSame('React', $thread->title);
+    }
+
 
 }
