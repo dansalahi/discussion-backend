@@ -37,4 +37,31 @@ class ThreadsController extends Controller
         return \response()->json($threadRepository->findBySlug($slug), Response::HTTP_OK);
     }
 
+
+    /**
+     *  Store a thread in DB.
+     * @method POST
+     * @param Request $request
+     * @param ThreadRepositoryInterface $threadRepository
+     * @return JsonResponse
+     */
+    public function store(Request $request, ThreadRepositoryInterface $threadRepository): JsonResponse
+    {
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'channel_id' => 'required',
+        ]);
+        $data = [
+            'title' => $request->input('title'),
+            'slug' => Str::slug($request->title),
+            'content' => $request->input('content'),
+            'channel_id' => $request->input('channel_id'),
+            'user_id' => auth()->user()->id
+        ];
+        $threadRepository->create($data);
+        return \response()->json(['message' => 'thread created'], Response::HTTP_CREATED);
+    }
+
+
 }
