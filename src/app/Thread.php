@@ -10,6 +10,7 @@ class Thread extends Model
 {
     protected $fillable = [
         'title',
+        'slug',
         'content',
         'status',
         'channel_id',
