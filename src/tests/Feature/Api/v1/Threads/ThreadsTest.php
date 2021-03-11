@@ -35,7 +35,7 @@ class ThreadsTest extends TestCase
     /**
      * @test a thread request to be validated
      */
-    public function test_store_a_channel_should_be_validated()
+    public function test_store_a_thread_should_be_validated()
     {
         $response = $this->postJson(route('threads.store'), []);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
