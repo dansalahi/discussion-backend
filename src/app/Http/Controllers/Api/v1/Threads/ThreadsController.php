@@ -91,4 +91,21 @@ class ThreadsController extends Controller
     }
 
 
+    /**
+     *
+     * delete a thread(s)
+     *
+     * @param Request $request
+     * @param ThreadRepositoryInterface $threadRepository
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, ThreadRepositoryInterface $threadRepository): JsonResponse
+    {
+        $request->validate(['id' => 'required']);
+        $threadRepository->destroy($request->id);
+        return \response()->json(['message' => 'thread has been deleted'], Response::HTTP_OK);
+    }
+
+
+
 }
