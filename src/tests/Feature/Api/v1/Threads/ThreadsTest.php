@@ -69,7 +69,7 @@ class ThreadsTest extends TestCase
 
         Sanctum::actingAs(factory(User::class)->create());
         $thread = factory(Thread::class)->create();
-        $response = $this->putJson(route('threads.update',[$thread]), []);
+        $response = $this->putJson(route('threads.update', [$thread]), []);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -79,7 +79,7 @@ class ThreadsTest extends TestCase
      */
     public function test_a_thread_should_be_updated()
     {
-        $this->withoutExceptionHandling();
+
         Sanctum::actingAs(factory(User::class)->create());
         $thread = factory(Thread::class)->create([
             'title' => 'Vue',
@@ -96,6 +96,31 @@ class ThreadsTest extends TestCase
 
         $thread->refresh();
         $this->assertSame('React', $thread->title);
+    }
+
+
+    /**
+     * Test a thread should be destroyed.
+     */
+    public function test_a_thread_should_be_destroy()
+    {
+        $this->withoutExceptionHandling();
+        Sanctum::actingAs(factory(User::class)->create());
+        $thread = factory(Thread::class)->create();
+        $response = $this->delete(route('threads.destroy', [$thread]));
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     * Test a request to destroying a thread should be validated
+     */
+    public function test_a_thread_to_destroy_should_be_validated()
+    {
+
+        Sanctum::actingAs(factory(User::class)->create());
+        $response = $this->json('DELETE', route('threads.destroy'), []);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
 
